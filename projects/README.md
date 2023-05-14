@@ -1,6 +1,9 @@
 # @ngx-translate/multi-http-loader [![npm version](https://img.shields.io/npm/v/ngx-back-button.svg)](https://www.npmjs.com/package/ngx-back-button)
 
 A library for handling a proper angular back button capability
+1. Handle Browser history
+2. Handle `Fallback` when clicking on the back button when not routed yet
+3. Handle custom `Fallback`
 
 * [Installation](#installation)
 * [Usage](#usage)
