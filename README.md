@@ -50,7 +50,7 @@ Then you can use it in two different way
 Normal use
 ```html
 <button ngxBackButton>
-  Back to login
+  Back button
 </button>
 ```
 
@@ -73,7 +73,7 @@ import { NgxBackButtonService } from 'ngx-back-button'
 Normal use
 ```html
 <button (click)="ngxBackButtonService.back()">
-  Back to login
+  Back button
 </button>
 ```
 
