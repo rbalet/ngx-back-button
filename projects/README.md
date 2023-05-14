@@ -1,12 +1,18 @@
-# @ngx-translate/multi-http-loader [![npm version](https://img.shields.io/npm/v/ngx-back-button.svg)](https://www.npmjs.com/package/ngx-back-button)
+# @ngx-back-button [![npm version](https://img.shields.io/npm/v/ngx-back-button.svg)](https://www.npmjs.com/package/ngx-back-button)
 
 A library for handling a proper angular back button capability
 1. Handle Browser history
 2. Handle `Fallback` when clicking on the back button when not routed yet
 3. Handle custom `Fallback`
 
-* [Installation](#installation)
-* [Usage](#usage)
+- [@ngx-back-button ](#ngx-back-button-)
+  - [Installation](#installation)
+    - [rootUrl](#rooturl)
+    - [fallbackPrefix](#fallbackprefix)
+  - [Usage](#usage)
+    - [Directive](#directive)
+    - [Service](#service)
+  - [Authors and acknowledgment](#authors-and-acknowledgment)
 
 ## Installation
 
@@ -24,6 +30,7 @@ import { NgxBackButtonModule, NgxBackButtonService } from 'ngx-back-button'
     // Or
     NgxBackButtonModule.forRoot({
       rootUrl: '/custom', // Or any custom root url
+      fallbackPrefix: '/tabs' // For libraries users
     }),
   ],
   providers: [
@@ -34,6 +41,31 @@ import { NgxBackButtonModule, NgxBackButtonService } from 'ngx-back-button'
       multi: true,
     },
   ]
+```
+
+### rootUrl 
+The default fallback in case your landing on the page and have nothing to go back to
+
+### fallbackPrefix
+Added to the fallback argument.
+
+Use: If you're building a library, wish to put some back button with fallback. 
+
+Let say, you build a component that have the following 
+```html
+<button ngxBackButton="/login">
+  Back to login
+</button>
+```
+
+But inside your app, you always have the `/tabs` first.
+
+Adding `fallbackPrefix: '/tabs'` will be the same as if you were doing the following
+
+```html
+<button ngxBackButton="/tabs/login">
+  Back to login
+</button>
 ```
 
 ## Usage

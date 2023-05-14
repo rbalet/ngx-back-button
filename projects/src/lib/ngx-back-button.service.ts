@@ -8,7 +8,8 @@ import { NgxBackButtonServiceConfig } from './ngx-back-button.interface'
 @Injectable()
 export class NgxBackButtonService {
   private _history: string[] = []
-  private _rootUrl!: string
+  private _rootUrl!: string // Default Fallback in case we do not have any navigation history
+  private _fallbackPrefix!: string // Always added in case of a Fallback (Useful when used within other libraries)
 
   constructor(
     @Inject(NgxBackButtonServiceProvider) _config: NgxBackButtonServiceConfig,
@@ -17,6 +18,7 @@ export class NgxBackButtonService {
     private _location: Location,
   ) {
     this._rootUrl = _config?.rootUrl || '/'
+    this._fallbackPrefix = _config.fallbackPrefix || ''
 
     this._router.events
       .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
@@ -26,7 +28,7 @@ export class NgxBackButtonService {
   }
 
   back(fallback?: string): void {
-    fallback = fallback || this._rootUrl
+    fallback = this._fallbackPrefix + (fallback || this._rootUrl)
     const record = this._history.pop()
 
     if (this._history.length > 0) {
