@@ -1,6 +1,6 @@
 {
   "name": "ngx-back-button",
-  "version": "15.1.0",
+  "version": "16.0.0",
   "license": "MIT",
   "author": "Raphael Balet",
   "maintainers": [
@@ -19,12 +19,12 @@
   "repository": {
     "url": "https://github.com/rbalet/ngx-back-button"
   },
-  "peerDependencies": {
-    "@angular/common": "^15.2.0",
-    "@angular/core": "^15.2.0"
-  },
   "dependencies": {
-    "tslib": "^2.5.0"
+    "tslib": "^2.5.2"
+  },
+  "peerDependencies": {
+    "@angular/common": ">=15.2.0",
+    "@angular/core": ">=15.2.0"
   },
   "sideEffects": false
 }
