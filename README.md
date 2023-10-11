@@ -27,7 +27,7 @@ Inside your `app.module.ts` file.
 import { NgxBackButtonModule, NgxBackButtonService } from 'ngx-back-button'
 
   imports: [
-    NgxBackButtonModule.forRoot(), // Default rootUrl === '/'
+    NgxBackButtonModule.forRoot({}), // Default rootUrl === '/'
 
     // Or
     NgxBackButtonModule.forRoot({
