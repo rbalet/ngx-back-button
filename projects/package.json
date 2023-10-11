@@ -1,6 +1,6 @@
 {
   "name": "ngx-back-button",
-  "version": "16.0.1",
+  "version": "16.0.2",
   "license": "MIT",
   "author": "Raphael Balet",
   "maintainers": [
@@ -8,6 +8,7 @@
   ],
   "keywords": [
     "angular",
+    "ngx",
     "back",
     "button",
     "directive"
