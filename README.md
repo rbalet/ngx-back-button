@@ -1,8 +1,6 @@
 # @ngx-back-button [![npm version](https://img.shields.io/npm/v/ngx-back-button.svg)](https://www.npmjs.com/package/ngx-back-button)
 A library for handling a proper angular back button capability
 
-[![BuyMeACoffee](https://www.buymeacoffee.com/assets/img/custom_images/purple_img.png)](https://www.buymeacoffee.com/widness)
-
 1. Handle Browser history
 2. Handle `Fallback` when clicking on the back button when not routed yet
 3. Handle custom `Fallback`
@@ -128,3 +126,5 @@ With Fallback
 ## Authors and acknowledgment
 * maintainer [Raphaël Balet](https://github.com/rbalet)
 * Inspired by [Nils Mehlhirn](https://nils-mehlhorn.de/posts/angular-navigate-back-previous-page/)
+
+[![BuyMeACoffee](https://www.buymeacoffee.com/assets/img/custom_images/purple_img.png)](https://www.buymeacoffee.com/widness)

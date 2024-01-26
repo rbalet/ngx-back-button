@@ -12,14 +12,14 @@
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "project": "projects/ng-package.json"
+            "project": "projects/ngx-back-button/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/tsconfig.lib.prod.json"
+              "tsConfig": "projects/ngx-back-button/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/tsconfig.lib.json"
+              "tsConfig": "projects/ngx-back-button/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -27,7 +27,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "tsConfig": "projects/tsconfig.spec.json",
+            "tsConfig": "projects/ngx-back-button/tsconfig.spec.json",
             "polyfills": [
               "zone.js",
               "zone.js/testing"
