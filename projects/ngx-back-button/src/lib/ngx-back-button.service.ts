@@ -17,7 +17,7 @@ export class NgxBackButtonService {
     private _router: Router,
     private _location: Location,
   ) {
-    this._rootUrl = _config?.rootUrl || '/'
+    this._rootUrl = _config?.rootUrl || ''
     this._fallbackPrefix = _config.fallbackPrefix || ''
 
     this._router.events
@@ -29,12 +29,18 @@ export class NgxBackButtonService {
 
   back(fallback?: string): void {
     fallback = this._fallbackPrefix + (fallback || this._rootUrl)
+
     const record = this._history.pop()
 
     if (this._history.length > 0) {
       this._location.back()
     } else {
-      window.history.replaceState(null, '', fallback)
+      try {
+        window.history.replaceState(null, '', fallback)
+      } catch (error) {
+        console.error('NgxBackButton: ' + error)
+      }
+
       window.history.pushState(null, '', record ?? this._router.url)
       this._location.back()
     }

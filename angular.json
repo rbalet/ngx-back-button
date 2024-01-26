@@ -5,8 +5,8 @@
   "projects": {
     "ngx-back-button": {
       "projectType": "library",
-      "root": "projects",
-      "sourceRoot": "projects/src",
+      "root": "projects/ngx-back-button",
+      "sourceRoot": "projects/ngx-back-button/src",
       "prefix": "lib",
       "architect": {
         "build": {
@@ -32,6 +32,111 @@
               "zone.js",
               "zone.js/testing"
             ]
+          }
+        }
+      }
+    },
+    "ngx-back-button-tester": {
+      "root": "projects/ngx-back-button-tester/",
+      "sourceRoot": "projects/ngx-back-button-tester/src",
+      "projectType": "application",
+      "prefix": "app",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "aot": true,
+            "outputPath": "dist/ngx-back-button-tester",
+            "index": "projects/ngx-back-button-tester/src/index.html",
+            "main": "projects/ngx-back-button-tester/src/main.ts",
+            "polyfills": "projects/ngx-back-button-tester/src/polyfills.ts",
+            "tsConfig": "projects/ngx-back-button-tester/tsconfig.app.json",
+            "assets": [
+              "projects/ngx-back-button-tester/src/favicon.ico",
+              "projects/ngx-back-button-tester/src/assets"
+            ],
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "projects/ngx-back-button-tester/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/ngx-back-button-tester/src/environments/environment.ts",
+                  "with": "projects/ngx-back-button-tester/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "buildTarget": "ngx-back-button-tester:build"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "ngx-back-button-tester:build:production"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-back-button-tester/src/test.ts",
+            "tsConfig": "projects/ngx-back-button-tester/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-back-button-tester/karma.conf.js",
+            "assets": [
+              "projects/ngx-back-button-tester/src/favicon.ico",
+              "projects/ngx-back-button-tester/src/assets"
+            ],
+            "styles": [
+              "projects/ngx-back-button-tester/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/ngx-back-button-tester//**/*.ts",
+              "projects/ngx-back-button-tester//**/*.html"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/ngx-back-button-tester/e2e/protractor.conf.js",
+            "devServerTarget": "ngx-back-button-tester:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ngx-back-button-tester:serve:production"
+            }
           }
         }
       }

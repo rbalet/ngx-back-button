@@ -8,6 +8,7 @@ A library for handling a proper angular back button capability
 3. Handle custom `Fallback`
 
 - [@ngx-back-button ](#ngx-back-button-)
+  - [Demo](#demo)
   - [Installation](#installation)
     - [rootUrl](#rooturl)
     - [fallbackPrefix](#fallbackprefix)
@@ -15,6 +16,9 @@ A library for handling a proper angular back button capability
     - [Directive](#directive)
     - [Service](#service)
   - [Authors and acknowledgment](#authors-and-acknowledgment)
+
+## Demo
+- https://stackblitz.com/~/github.com/rbalet/ngx-back-button
 
 ## Installation
 
