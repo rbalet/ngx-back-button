@@ -1,19 +1,14 @@
-# @ngx-back-button [![npm version](https://img.shields.io/npm/v/ngx-back-button.svg)](https://www.npmjs.com/package/ngx-back-button)
+# @ngx-back-button 
 A library for handling a proper angular back button capability
+
+![NPM](https://img.shields.io/npm/l/ngx-back-button)
+[![npm version](https://img.shields.io/npm/v/ngx-back-button.svg)](https://www.npmjs.com/package/ngx-back-button)
+![npm bundle size](https://img.shields.io/bundlephobia/min/ngx-back-button)
+![npm](https://img.shields.io/npm/dm/ngx-back-button)
 
 1. Handle Browser history
 2. Handle `Fallback` when clicking on the back button when not routed yet
 3. Handle custom `Fallback`
-
-- [@ngx-back-button ](#ngx-back-button-)
-  - [Demo](#demo)
-  - [Installation](#installation)
-    - [rootUrl](#rooturl)
-    - [fallbackPrefix](#fallbackprefix)
-  - [Usage](#usage)
-    - [Directive](#directive)
-    - [Service](#service)
-  - [Authors and acknowledgment](#authors-and-acknowledgment)
 
 ## Demo
 - https://stackblitz.com/~/github.com/rbalet/ngx-back-button

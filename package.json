@@ -23,9 +23,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build ngx-back-button --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "test:ci": "ng test ngx-back-button --watch=false --code-coverage --no-progress --browsers=ChromeHeadless",
     "publish": "ng build ngx-back-button --configuration production && npm publish ./dist/ngx-back-button"
   },
   "dependencies": {
@@ -39,6 +40,7 @@
     "@angular/platform-browser": "^17.1.1",
     "@angular/platform-browser-dynamic": "^17.1.1",
     "@angular/router": "^17.1.1",
+    "@semantic-release/apm-config": "^9.0.1",
     "rxjs": "~7.8.1",
     "tslib": "^2.6.2",
     "zone.js": "~0.14.3"
@@ -56,5 +58,8 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "ng-packagr": "^17.1.2",
     "typescript": "~5.3.3"
+  },
+  "release": {
+    "extends": "@semantic-release/apm-config"
   }
 }
