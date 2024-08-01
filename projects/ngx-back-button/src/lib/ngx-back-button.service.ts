@@ -28,15 +28,13 @@ export class NgxBackButtonService {
   }
 
   back(fallback?: string): void {
-    fallback = this._fallbackPrefix + (fallback || this._rootUrl)
-
     const record = this._history.pop()
 
     if (this._history.length > 0) {
       this._location.back()
     } else {
       try {
-        window.history.replaceState(null, '', fallback)
+        window.history.replaceState(null, '', this._fallbackPrefix + (fallback || this._rootUrl))
       } catch (error) {
         console.error('NgxBackButton: ' + error)
       }
