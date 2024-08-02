@@ -13,6 +13,7 @@ export class NgxBackButtonModule {
     return {
       ngModule: NgxBackButtonModule,
       providers: [
+        NgxBackButtonService,
         {
           provide: NgxBackButtonServiceProvider,
           useValue: config,
