@@ -21,7 +21,7 @@ npm install ngx-back-button
 
 Inside your `app.module.ts` file.
 ```typescript
-import { NgxBackButtonModule, NgxBackButtonService } from 'ngx-back-button'
+import { NgxBackButtonModule } from 'ngx-back-button'
 
   imports: [
     NgxBackButtonModule.forRoot({}), // Default rootUrl === '/'
