@@ -11,6 +11,8 @@ export class NgxBackButtonService {
   private _rootUrl!: string // Default Fallback in case we do not have any navigation history
   private _fallbackPrefix!: string // Always added in case of a Fallback (Useful when used within other libraries)
 
+  private _navigatingBack = false
+
   constructor(
     @Inject(NgxBackButtonServiceProvider) _config: NgxBackButtonServiceConfig,
 
@@ -23,7 +25,9 @@ export class NgxBackButtonService {
     this._router.events
       .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
       .subscribe((event) => {
-        this._history.push(event.urlAfterRedirects)
+        if (!this._navigatingBack) this._history.push(event.urlAfterRedirects)
+
+        this._navigatingBack = false
       })
   }
 
@@ -33,6 +37,7 @@ export class NgxBackButtonService {
    * @return Boolean: True === Had an history to go back to
    */
   back(fallback?: string): boolean {
+    this._navigatingBack = true
     const record = this._history.pop()
 
     if (this._history.length > 0) {
