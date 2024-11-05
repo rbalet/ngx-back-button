@@ -27,11 +27,17 @@ export class NgxBackButtonService {
       })
   }
 
-  back(fallback?: string): void {
+  /**
+   *
+   * @param fallback
+   * @return Boolean: True === Had an history to go back to
+   */
+  back(fallback?: string): boolean {
     const record = this._history.pop()
 
     if (this._history.length > 0) {
       this._location.back()
+      return true
     } else {
       try {
         window.history.replaceState(null, '', this._fallbackPrefix + (fallback || this._rootUrl))
@@ -41,6 +47,7 @@ export class NgxBackButtonService {
 
       window.history.pushState(null, '', record ?? this._router.url)
       this._location.back()
+      return false
     }
   }
 }
