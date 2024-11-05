@@ -32,14 +32,6 @@ import { NgxBackButtonModule, NgxBackButtonService } from 'ngx-back-button'
       fallbackPrefix: '/tabs' // For libraries users
     }),
   ],
-  providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: () => () => null,
-      deps: [NgxBackButtonService],
-      multi: true,
-    },
-  ]
 ```
 
 ### rootUrl 
