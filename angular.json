@@ -44,13 +44,16 @@
       "schematics": {},
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "aot": true,
-            "outputPath": "dist/ngx-back-button-tester",
+            "outputPath": {
+              "base": "dist/ngx-back-button-tester"
+            },
             "index": "projects/ngx-back-button-tester/src/index.html",
-            "main": "projects/ngx-back-button-tester/src/main.ts",
-            "polyfills": "projects/ngx-back-button-tester/src/polyfills.ts",
+            "polyfills": [
+              "projects/ngx-back-button-tester/src/polyfills.ts"
+            ],
             "tsConfig": "projects/ngx-back-button-tester/tsconfig.app.json",
             "assets": [
               "projects/ngx-back-button-tester/src/favicon.ico",
@@ -60,7 +63,8 @@
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "projects/ngx-back-button-tester/src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "browser": "projects/ngx-back-button-tester/src/main.ts"
           },
           "configurations": {
             "production": {
@@ -75,8 +79,6 @@
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",

@@ -4,19 +4,16 @@ import { MatButtonModule } from '@angular/material/button'
 import { NgxBackButtonModule } from '../../../../ngx-back-button/src/lib/ngx-back-button.module'
 
 @Component({
-  selector: 'app-third',
-  standalone: true,
-  imports: [
-    CommonModule,
-
-    // Mat
-    MatButtonModule,
-
-    // Vendors
-    NgxBackButtonModule,
-  ],
-  templateUrl: 'third.component.html',
-  styleUrl: './third.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-third',
+    imports: [
+        CommonModule,
+        // Mat
+        MatButtonModule,
+        // Vendors
+        NgxBackButtonModule,
+    ],
+    templateUrl: 'third.component.html',
+    styleUrl: './third.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ThirdComponent {}
