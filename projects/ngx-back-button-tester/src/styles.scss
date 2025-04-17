@@ -20,4 +20,10 @@ $my-theme: mat.m2-define-light-theme(
 
 body {
   font-family: 'Roboto', sans-serif;
+  .color-primary {
+    color: mat.get-theme-color($my-theme, primary, 500);
+  }
+  .color-accent {
+    color: #{mat.get-theme-color($my-theme, accent, A400)};
+  }
 }

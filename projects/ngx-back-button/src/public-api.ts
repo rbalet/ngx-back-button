@@ -3,5 +3,4 @@
  */
 
 export * from './lib/ngx-back-button.directive'
-export * from './lib/ngx-back-button.module'
 export * from './lib/ngx-back-button.service'

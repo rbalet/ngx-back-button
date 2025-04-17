@@ -2,8 +2,7 @@ import { Directive, HostListener, Input } from '@angular/core'
 import { NgxBackButtonService } from './ngx-back-button.service'
 
 @Directive({
-    selector: '[ngxBackButton]',
-    standalone: false
+  selector: '[ngxBackButton]',
 })
 export class NgxBackButtonDirective {
   @Input() ngxBackButton?: string

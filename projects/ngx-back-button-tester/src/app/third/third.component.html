@@ -1,10 +1,12 @@
-<h2>Page: 2</h2>
+<h2 class="color-accent">Page: 3</h2>
 <h3>Reload the page to test the fallback</h3>
 
 <div class="example-container">
   <button mat-stroked-button ngxBackButton>rootUrl</button>
   <p><strong>ngxBackButton</strong>: Fallback with default (rootUrl)</p>
 </div>
+
+<mat-divider></mat-divider>
 
 <div class="example-container">
   <button mat-stroked-button ngxBackButton="/first">Page 1</button>
@@ -14,4 +16,11 @@
 <div class="example-container">
   <button mat-flat-button color="primary" ngxBackButton="/second">Page 2</button>
   <p><strong>ngxBackButton="/third"</strong>: Fallback to /third</p>
+</div>
+
+<mat-divider></mat-divider>
+
+<div class="example-container">
+  <button mat-stroked-button color="primary" routerLink="../second">Forward 2</button>
+  <p><strong>routerLink="../second"</strong>: Forward second</p>
 </div>

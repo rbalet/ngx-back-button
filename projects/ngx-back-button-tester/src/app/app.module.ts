@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { BrowserModule } from '@angular/platform-browser'
 import { RouterModule, Routes } from '@angular/router'
-import { NgxBackButtonModule } from '../../../ngx-back-button/src/lib/ngx-back-button.module'
+import { NgxBackButtonServiceProvider } from 'projects/ngx-back-button/src/lib/ngx-back-button.const'
 import { AppComponent } from './app.component'
 
 export const routes: Routes = [
@@ -56,10 +56,15 @@ export const routes: Routes = [
     MatDividerModule,
 
     // Init
-    NgxBackButtonModule.forRoot({
-      rootUrl: '/first',
-      fallbackPrefix: '/home', // Added to every fallback url
-    }),
+  ],
+  providers: [
+    {
+      provide: NgxBackButtonServiceProvider,
+      useValue: {
+        rootUrl: '/first',
+        fallbackPrefix: '/home', // Added to every fallback url
+      },
+    },
   ],
   bootstrap: [AppComponent],
 })
