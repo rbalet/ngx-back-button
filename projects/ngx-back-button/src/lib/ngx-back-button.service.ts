@@ -1,12 +1,15 @@
 import { Location } from '@angular/common'
-import { Inject, Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { NavigationEnd, Router } from '@angular/router'
 import { filter } from 'rxjs'
 import { NgxBackButtonServiceProvider } from './ngx-back-button.const'
-import { NgxBackButtonServiceConfig } from './ngx-back-button.interface'
 
 @Injectable()
 export class NgxBackButtonService {
+  readonly #router = inject(Router)
+  readonly #location = inject(Location)
+  readonly #config = inject(NgxBackButtonServiceProvider)
+
   private _history: string[] = []
   private _rootUrl!: string // Default Fallback in case we do not have any navigation history
   private _fallbackPrefix!: string // Always added in case of a Fallback (Useful when used within other libraries)
@@ -14,15 +17,11 @@ export class NgxBackButtonService {
   private _navigatingBack = false
 
   constructor(
-    @Inject(NgxBackButtonServiceProvider) _config: NgxBackButtonServiceConfig,
-
-    private _router: Router,
-    private _location: Location,
   ) {
-    this._rootUrl = _config?.rootUrl || ''
-    this._fallbackPrefix = _config.fallbackPrefix || ''
+    this._rootUrl = this.#config?.rootUrl || ''
+    this._fallbackPrefix = this.#config.fallbackPrefix || ''
 
-    this._router.events
+    this.#router.events
       .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
       .subscribe((event) => {
         if (!this._navigatingBack) this._history.push(event.urlAfterRedirects)
@@ -41,7 +40,7 @@ export class NgxBackButtonService {
     const record = this._history.pop()
 
     if (this._history.length > 0) {
-      this._location.back()
+      this.#location.back()
       return true
     } else {
       try {
@@ -50,8 +49,8 @@ export class NgxBackButtonService {
         console.error('NgxBackButton: ' + error)
       }
 
-      window.history.pushState(null, '', record ?? this._router.url)
-      this._location.back()
+      window.history.pushState(null, '', record ?? this.#router.url)
+      this.#location.back()
       return false
     }
   }
