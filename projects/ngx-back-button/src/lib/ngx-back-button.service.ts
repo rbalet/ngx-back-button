@@ -28,11 +28,14 @@ export class NgxBackButtonService {
         skip(1), // Skip the first event (initial load)
       )
       .subscribe((event) => {
-        console.log('event', event)
         if (!this._navigatingBack) this._history.push(event.urlAfterRedirects)
 
         this._navigatingBack = false
       })
+  }
+
+  getHistory(): string[] {
+    return this._history
   }
 
   /**
@@ -44,14 +47,11 @@ export class NgxBackButtonService {
     this._navigatingBack = true
     const record = this._history.pop()
 
-    console.log(record, this._history, this._history.length > 0)
-
     if (this._history.length > 0) {
       this.#location.back()
       return true
     } else {
       try {
-        console.log()
         window.history.replaceState(null, '', this._fallbackPrefix + (fallback || this._rootUrl))
       } catch (error) {
         console.error('NgxBackButton: ' + error)
