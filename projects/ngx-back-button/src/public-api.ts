@@ -2,5 +2,6 @@
  * Public API Surface of ngx-back-button
  */
 
+export * from './lib/ngx-back-button.const'
 export * from './lib/ngx-back-button.directive'
 export * from './lib/ngx-back-button.service'
