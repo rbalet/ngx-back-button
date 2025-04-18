@@ -26,13 +26,12 @@ npm install ngx-back-button
 To configure the library, provide the `NgxBackButtonService` and its configuration globally in your `main.ts` file:
 
 ```typescript
-import { bootstrapApplication } from '@angular/platform-browser';
-import { AppComponent } from './app/app.component';
+import { NgxBackButtonServiceProvider } from 'ngx-back-button'
 
 bootstrapApplication(AppComponent, {
   providers: [
     { // This is optional
-      provide: 'NgxBackButtonServiceConfig',
+      provide:  NgxBackButtonServiceProvider,
       useValue: {
         rootUrl: '/custom', // Or any custom root URL
         fallbackPrefix: '/tabs', // For library users
