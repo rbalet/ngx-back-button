@@ -27,11 +27,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "tsConfig": "projects/ngx-back-button/tsconfig.spec.json",
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ]
+            "tsConfig": "projects/ngx-back-button/tsconfig.spec.json"
           }
         }
       }
@@ -51,9 +47,6 @@
               "base": "dist/ngx-back-button-tester"
             },
             "index": "projects/ngx-back-button-tester/src/index.html",
-            "polyfills": [
-              "projects/ngx-back-button-tester/src/polyfills.ts"
-            ],
             "tsConfig": "projects/ngx-back-button-tester/tsconfig.app.json",
             "assets": [
               "projects/ngx-back-button-tester/src/favicon.ico",
@@ -142,6 +135,32 @@
           }
         }
       }
+    }
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "type": "component"
+    },
+    "@schematics/angular:directive": {
+      "type": "directive"
+    },
+    "@schematics/angular:service": {
+      "type": "service"
+    },
+    "@schematics/angular:guard": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:interceptor": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:module": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:pipe": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:resolver": {
+      "typeSeparator": "."
     }
   }
 }

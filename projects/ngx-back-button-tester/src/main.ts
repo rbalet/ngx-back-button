@@ -1,23 +1,25 @@
-import { enableProdMode } from '@angular/core'
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic'
+import { enableProdMode, provideZonelessChangeDetection } from '@angular/core'
+import { bootstrapApplication } from '@angular/platform-browser'
+import { provideRouter } from '@angular/router'
 import { NgxBackButtonServiceProvider } from 'projects/ngx-back-button/src/lib/ngx-back-button.const'
-import { AppModule } from './app/app.module'
+import { AppComponent } from './app/app.component'
+import { routes } from './app/app.routes'
 import { environment } from './environments/environment'
 
 if (environment.production) {
   enableProdMode()
 }
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideZonelessChangeDetection(),
+    provideRouter(routes),
 
-const bootstrap = () =>
-  platformBrowserDynamic().bootstrapModule(AppModule, {
-    providers: [
-      {
-        provide: NgxBackButtonServiceProvider,
-        useValue: {
-          rootUrl: 'home',
-        },
+    {
+      provide: NgxBackButtonServiceProvider,
+      useValue: {
+        rootUrl: '/first',
+        fallbackPrefix: '/home', // Added to every fallback url
       },
-    ],
-  })
-
-bootstrap().catch((err) => console.error(err))
+    },
+  ],
+})
