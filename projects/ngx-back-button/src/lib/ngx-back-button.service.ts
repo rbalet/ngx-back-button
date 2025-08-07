@@ -45,12 +45,15 @@ export class NgxBackButtonService {
    */
   back(fallback?: string): boolean {
     this._navigatingBack = true
+
     const record = this._history.pop()
 
     if (this._history.length > 0) {
       this.#location.back()
       return true
     } else {
+      this._navigatingBack = false // Give an element to go back to on next navigation
+
       try {
         window.history.replaceState(null, '', this._fallbackPrefix + (fallback || this._rootUrl))
       } catch (error) {
