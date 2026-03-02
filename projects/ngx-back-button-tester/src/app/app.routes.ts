@@ -17,7 +17,7 @@ export const routes: Routes = [
         path: 'third',
         providers: [
           provideNgxBackButtonChild({
-            rootUrl: '/login',
+            rootUrl: '/home/second',
           }),
         ],
         loadComponent: () => import('./third/third.component').then((m) => m.ThirdComponent),
