@@ -1,5 +1,5 @@
 import { Location } from '@angular/common'
-import { inject, Injectable } from '@angular/core'
+import { inject, Injectable, Injector } from '@angular/core'
 import { NavigationEnd, Router } from '@angular/router'
 import { filter, skip } from 'rxjs'
 import { NgxBackButtonServiceProvider } from './ngx-back-button.const'
@@ -10,18 +10,12 @@ import { NgxBackButtonServiceProvider } from './ngx-back-button.const'
 export class NgxBackButtonService {
   readonly #router = inject(Router)
   readonly #location = inject(Location)
-  readonly #config = inject(NgxBackButtonServiceProvider, { optional: true })
+  readonly #injector = inject(Injector)
 
   private _history: string[] = []
-  private _rootUrl!: string // Default Fallback in case we do not have any navigation history
-  private _fallbackPrefix!: string // Always added in case of a Fallback (Useful when used within other libraries)
-
   private _navigatingBack = false
 
   constructor() {
-    this._rootUrl = this.#config?.rootUrl || ''
-    this._fallbackPrefix = this.#config?.fallbackPrefix || ''
-
     this.#router.events
       .pipe(
         filter((e): e is NavigationEnd => e instanceof NavigationEnd),
@@ -54,8 +48,13 @@ export class NgxBackButtonService {
     } else {
       this._navigatingBack = false // Give an element to go back to on next navigation
 
+      // Get config dynamically to support child route configurations
+      const config = this.#injector.get(NgxBackButtonServiceProvider, null, { optional: true })
+      const rootUrl = config?.rootUrl || ''
+      const fallbackPrefix = config?.fallbackPrefix || ''
+
       try {
-        window.history.replaceState(null, '', this._fallbackPrefix + (fallback || this._rootUrl))
+        window.history.replaceState(null, '', fallbackPrefix + (fallback || rootUrl))
       } catch (error) {
         console.error('NgxBackButton: ' + error)
       }

@@ -23,7 +23,46 @@ npm install ngx-back-button
 
 ### Optional configuration
 
-To configure the library, provide the `NgxBackButtonService` and its configuration globally in your `main.ts` file:
+#### Using provider functions (Recommended)
+
+To configure the library, use the `provideNgxBackButton` function in your application providers:
+
+```typescript
+import { provideNgxBackButton } from 'ngx-back-button'
+
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideNgxBackButton({
+      rootUrl: '/custom', // Or any custom root URL
+      fallbackPrefix: '/tabs', // For library users
+    }),
+  ],
+}).catch((err) => console.error(err));
+```
+
+#### Child route configuration
+
+You can override the configuration for specific routes using `provideNgxBackButtonChild`:
+
+```typescript
+import { provideNgxBackButtonChild } from 'ngx-back-button'
+
+export const routes: Routes = [
+  {
+    path: 'admin',
+    providers: [
+      provideNgxBackButtonChild({
+        rootUrl: '/admin/dashboard'
+      })
+    ],
+    loadComponent: () => import('./admin/admin.component')
+  }
+]
+```
+
+#### Alternative configuration (Legacy)
+
+You can also configure the library by providing the service configuration directly:
 
 ```typescript
 import { NgxBackButtonServiceProvider } from 'ngx-back-button'
