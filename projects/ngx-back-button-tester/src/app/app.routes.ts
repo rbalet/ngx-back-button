@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router'
+import { provideNgxBackButtonChild } from 'projects/ngx-back-button/src/lib/ngx-back-button.providers'
 
 export const routes: Routes = [
   {
@@ -14,6 +15,11 @@ export const routes: Routes = [
       },
       {
         path: 'third',
+        providers: [
+          provideNgxBackButtonChild({
+            rootUrl: '/login',
+          }),
+        ],
         loadComponent: () => import('./third/third.component').then((m) => m.ThirdComponent),
       },
       {
