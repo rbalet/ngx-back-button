@@ -161,6 +161,24 @@ With Fallback:
 </button>
 ```
 
+**Note**: When using the service directly (instead of the directive), it will use the root configuration by default. If you need to use a child route configuration, you should inject and pass it manually:
+
+```typescript
+import { inject } from '@angular/core';
+import { NgxBackButtonService, NgxBackButtonServiceProvider } from 'ngx-back-button';
+
+export class MyComponent {
+  private ngxBackButtonService = inject(NgxBackButtonService)
+  private config = inject(NgxBackButtonServiceProvider, { optional: true })
+  
+  goBack() {
+    this.ngxBackButtonService.back(undefined, this.config)
+  }
+}
+```
+
+For most use cases, it's recommended to use the directive, which handles this automatically.
+
 ## Authors and acknowledgment
 * Maintainer [Raphaël Balet](https://github.com/rbalet)
 * Inspired by [Nils Mehlhirn](https://nils-mehlhorn.de/posts/angular-navigate-back-previous-page/)
