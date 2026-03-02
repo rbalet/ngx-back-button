@@ -1,4 +1,5 @@
-import { Directive, HostListener, Input } from '@angular/core'
+import { Directive, HostListener, inject, Input } from '@angular/core'
+import { NgxBackButtonServiceProvider } from './ngx-back-button.const'
 import { NgxBackButtonService } from './ngx-back-button.service'
 
 @Directive({
@@ -7,10 +8,11 @@ import { NgxBackButtonService } from './ngx-back-button.service'
 export class NgxBackButtonDirective {
   @Input() ngxBackButton?: string
 
-  constructor(private _ngxBackButtonService: NgxBackButtonService) {}
+  private _ngxBackButtonService = inject(NgxBackButtonService)
+  private _config = inject(NgxBackButtonServiceProvider, { optional: true })
 
   @HostListener('click')
   onClick(): void {
-    this._ngxBackButtonService.back(this.ngxBackButton)
+    this._ngxBackButtonService.back(this.ngxBackButton, this._config)
   }
 }
