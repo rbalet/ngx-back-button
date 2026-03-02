@@ -8,11 +8,11 @@ import { NgxBackButtonService } from './ngx-back-button.service'
 export class NgxBackButtonDirective {
   @Input() ngxBackButton?: string
 
-  private _ngxBackButtonService = inject(NgxBackButtonService)
-  private _config = inject(NgxBackButtonServiceProvider, { optional: true })
+  readonly #ngxBackButtonService = inject(NgxBackButtonService)
+  readonly #config = inject(NgxBackButtonServiceProvider, { optional: true })
 
   @HostListener('click')
   onClick(): void {
-    this._ngxBackButtonService.back(this.ngxBackButton, this._config)
+    this.#ngxBackButtonService.back(this.ngxBackButton, this.#config)
   }
 }
