@@ -27,7 +27,8 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "tsConfig": "projects/ngx-back-button/tsconfig.spec.json"
+            "tsConfig": "projects/ngx-back-button/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-back-button/karma.conf.js"
           }
         }
       }
