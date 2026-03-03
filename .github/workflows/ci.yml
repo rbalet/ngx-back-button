@@ -4,14 +4,50 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref }}
   cancel-in-progress: true
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Get latest code
+        uses: actions/checkout@v6
+
+      - name: ⬇️ Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: ⬇️ Get Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: "pnpm"
+
+      - name: 📦 Install dependencies
+        run: pnpm install
+
+      - name: 🧪 Run tests with coverage
+        run: pnpm run test:ci
+
+      - name: 📊 Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          files: ./coverage/ngx-back-button/lcov.info
+          flags: unittests
+          name: ngx-back-button-coverage
+          fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}
+
   publish:
     runs-on: ubuntu-latest
+    needs: test
     if: github.ref_name == 'main'
     permissions:
       contents: write # to be able to publish a GitHub release

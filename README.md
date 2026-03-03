@@ -5,6 +5,7 @@ A library for handling a proper angular back button capability
 [![npm version](https://img.shields.io/npm/v/ngx-back-button.svg)](https://www.npmjs.com/package/ngx-back-button)
 ![npm bundle size](https://img.shields.io/bundlephobia/min/ngx-back-button)
 ![npm](https://img.shields.io/npm/dm/ngx-back-button)
+[![codecov](https://codecov.io/gh/rbalet/ngx-back-button/branch/main/graph/badge.svg)](https://codecov.io/gh/rbalet/ngx-back-button)
 
 1. Handle Browser history
 2. Handle `Fallback` when clicking on the back button when not routed yet
@@ -178,6 +179,29 @@ export class MyComponent {
 ```
 
 For most use cases, it's recommended to use the directive, which handles this automatically.
+
+## Development
+
+### Running Tests
+
+The library includes comprehensive unit tests with 100% code coverage.
+
+Run tests once:
+```sh
+npm run test:ci
+```
+
+Run tests in watch mode:
+```sh
+npm test
+```
+
+### Building
+
+Build the library:
+```sh
+npm run build
+```
 
 ## Authors and acknowledgment
 * Maintainer [Raphaël Balet](https://github.com/rbalet)
