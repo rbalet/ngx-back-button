@@ -27,7 +27,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:ci": "ng test ngx-back-button --watch=false --code-coverage --no-progress --browsers=ChromeHeadless",
-    "publish": "ng build ngx-back-button --configuration production && pnpm run copy-files && pnpm publish ./dist/ngx-back-button",
+    "deploy": "ng build ngx-back-button --configuration production && pnpm run copy-files && pnpm publish ./dist/ngx-back-button",
     "copy-files": "cp README.md dist/ngx-back-button && cp LICENSE dist/ngx-back-button"
   },
   "dependencies": {
