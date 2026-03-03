@@ -2,9 +2,8 @@ name: CI
 
 on:
   push:
-    tags:
-      - "v*.*.*"
-      - "v*.*.*-rc*"
+    branches:
+      - main
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref }}
@@ -34,7 +33,7 @@ jobs:
   publish:
     # needs: build
     runs-on: ubuntu-latest
-    if: github.ref_name == 'main' && startsWith(github.ref_name, 'v') && !contains(github.ref_name, '-rc')
+    if: github.ref_name == 'main'
     permissions:
       contents: write # to be able to publish a GitHub release
       issues: write # to be able to comment on released issues
