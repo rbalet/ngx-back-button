@@ -42,7 +42,7 @@ jobs:
 
     steps:
       - name: ⬇️ Get latest code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -50,15 +50,21 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 24
-          cache: "npm"
+          cache: "pnpm"
+
+      - name: ⬇️ Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
 
       - name: 📦 Install dependencies
-        run: npm i
+        run: pnpm install
+
       - name: 🏗️ Build
-        run: npm run build && npm run copy-files
+        run: pnpm run build && pnpm run copy-files
 
       - name: 🚀 release
-        run: cd dist/ngx-back-button && npx semantic-release --branches main
+        run: cd dist/ngx-back-button && pnpm exec semantic-release --branches main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
