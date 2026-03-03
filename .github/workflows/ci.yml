@@ -2,8 +2,9 @@ name: CI
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - "v*.*.*"
+      - "v*.*.*-rc*"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref }}
@@ -33,7 +34,7 @@ jobs:
   publish:
     # needs: build
     runs-on: ubuntu-latest
-    if: github.ref_name == 'main'
+    if: github.ref_name == 'main' && startsWith(github.ref_name, 'v') && !contains(github.ref_name, '-rc')
     permissions:
       contents: write # to be able to publish a GitHub release
       issues: write # to be able to comment on released issues
@@ -41,15 +42,15 @@ jobs:
       id-token: write # to enable use of OIDC for npm provenance
 
     steps:
-      - name: ⬇️ Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10
-
       - name: ⬇️ Get latest code
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
+
+      - name: ⬇️ Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
 
       - name: ⬇️ Get Node.js
         uses: actions/setup-node@v6
