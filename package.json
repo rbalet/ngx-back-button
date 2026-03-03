@@ -55,6 +55,7 @@
     "karma-chrome-launcher": "3.2.0",
     "karma-coverage": "2.2.1",
     "karma-jasmine": "5.1.0",
+    "semantic-release": "25.0.3",
     "karma-jasmine-html-reporter": "2.2.0",
     "ng-packagr": "21.2.0",
     "typescript": "5.9.3"
