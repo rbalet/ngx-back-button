@@ -41,6 +41,11 @@ jobs:
       id-token: write # to enable use of OIDC for npm provenance
 
     steps:
+      - name: ⬇️ Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
       - name: ⬇️ Get latest code
         uses: actions/checkout@v6
         with:
@@ -51,11 +56,6 @@ jobs:
         with:
           node-version: 24
           cache: "pnpm"
-
-      - name: ⬇️ Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10
 
       - name: 📦 Install dependencies
         run: pnpm install
