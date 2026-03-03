@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core'
 import { NavigationEnd, Router } from '@angular/router'
 import { filter, skip } from 'rxjs'
 import { NgxBackButtonServiceProvider } from './ngx-back-button.const'
+import { NgxBackButtonServiceConfig } from './ngx-back-button.interface'
 
 @Injectable({
   providedIn: 'root',
@@ -10,18 +11,12 @@ import { NgxBackButtonServiceProvider } from './ngx-back-button.const'
 export class NgxBackButtonService {
   readonly #router = inject(Router)
   readonly #location = inject(Location)
-  readonly #config = inject(NgxBackButtonServiceProvider, { optional: true })
+  readonly #rootConfig = inject(NgxBackButtonServiceProvider, { optional: true })
 
   private _history: string[] = []
-  private _rootUrl!: string // Default Fallback in case we do not have any navigation history
-  private _fallbackPrefix!: string // Always added in case of a Fallback (Useful when used within other libraries)
-
   private _navigatingBack = false
 
   constructor() {
-    this._rootUrl = this.#config?.rootUrl || ''
-    this._fallbackPrefix = this.#config?.fallbackPrefix || ''
-
     this.#router.events
       .pipe(
         filter((e): e is NavigationEnd => e instanceof NavigationEnd),
@@ -41,9 +36,10 @@ export class NgxBackButtonService {
   /**
    *
    * @param fallback
+   * @param config Optional configuration to override the root configuration (typically from child routes)
    * @return Boolean: True === Had an history to go back to
    */
-  back(fallback?: string): boolean {
+  back(fallback?: string, config?: NgxBackButtonServiceConfig | null): boolean {
     this._navigatingBack = true
 
     const record = this._history.pop()
@@ -54,8 +50,13 @@ export class NgxBackButtonService {
     } else {
       this._navigatingBack = false // Give an element to go back to on next navigation
 
+      // Use provided config (from child route) or fall back to root config
+      const effectiveConfig = config || this.#rootConfig
+      const rootUrl = effectiveConfig?.rootUrl || ''
+      const fallbackPrefix = effectiveConfig?.fallbackPrefix || ''
+
       try {
-        window.history.replaceState(null, '', this._fallbackPrefix + (fallback || this._rootUrl))
+        window.history.replaceState(null, '', fallbackPrefix + (fallback || rootUrl))
       } catch (error) {
         console.error('NgxBackButton: ' + error)
       }
