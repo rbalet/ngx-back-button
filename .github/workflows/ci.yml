@@ -43,7 +43,7 @@ jobs:
         run: pnpm run build && pnpm run copy-files
 
       - name: 🚀 release
-        run: pnpm -C . exec semantic-release --branches main
+        run: pnpm exec semantic-release --branches main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

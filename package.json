@@ -65,6 +65,20 @@
     "typescript": "5.9.3"
   },
   "release": {
-    "extends": "@semantic-release/github"
+    "branches": [
+      "main"
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "dist/ngx-back-button",
+          "access": "public"
+        }
+      ],
+      "@semantic-release/github"
+    ]
   }
 }
