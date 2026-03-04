@@ -184,16 +184,21 @@ For most use cases, it's recommended to use the directive, which handles this au
 
 ### Running Tests
 
-The library includes comprehensive unit tests with 100% code coverage.
-
-Run tests once:
-```sh
-npm run test:ci
-```
+The library uses Vitest for testing with comprehensive unit tests achieving 100% code coverage.
 
 Run tests in watch mode:
 ```sh
 npm test
+```
+
+Run tests once with coverage:
+```sh
+npm run test:ci
+```
+
+Run tests with UI:
+```sh
+npm run test:ui
 ```
 
 ### Building

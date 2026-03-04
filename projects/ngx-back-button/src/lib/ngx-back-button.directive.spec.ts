@@ -1,6 +1,7 @@
 import { Component, DebugElement } from '@angular/core'
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { By } from '@angular/platform-browser'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { NgxBackButtonDirective } from './ngx-back-button.directive'
 import { NgxBackButtonService } from './ngx-back-button.service'
 import { NgxBackButtonServiceProvider } from './ngx-back-button.const'
@@ -28,18 +29,20 @@ describe('NgxBackButtonDirective', () => {
 
   beforeEach(async () => {
     const routerEventsSubject = new Subject()
-    const locationSpy = jasmine.createSpyObj('Location', ['back'])
-    const routerSpy = jasmine.createSpyObj('Router', [], {
+    const locationMock = {
+      back: vi.fn()
+    }
+    const routerMock = {
       events: routerEventsSubject.asObservable(),
       url: '/current'
-    })
+    }
 
     await TestBed.configureTestingModule({
       imports: [TestComponent],
       providers: [
         NgxBackButtonService,
-        { provide: Location, useValue: locationSpy },
-        { provide: Router, useValue: routerSpy }
+        { provide: Location, useValue: locationMock },
+        { provide: Router, useValue: routerMock }
       ]
     }).compileComponents()
 
@@ -60,7 +63,7 @@ describe('NgxBackButtonDirective', () => {
   })
 
   it('should call service.back() without fallback on click', () => {
-    spyOn(service, 'back')
+    vi.spyOn(service, 'back')
     
     buttons[0].nativeElement.click()
     
@@ -68,7 +71,7 @@ describe('NgxBackButtonDirective', () => {
   })
 
   it('should call service.back() with fallback on click', () => {
-    spyOn(service, 'back')
+    vi.spyOn(service, 'back')
     
     buttons[1].nativeElement.click()
     
@@ -84,8 +87,8 @@ describe('NgxBackButtonDirective', () => {
       imports: [TestComponent],
       providers: [
         NgxBackButtonService,
-        { provide: Location, useValue: jasmine.createSpyObj('Location', ['back']) },
-        { provide: Router, useValue: jasmine.createSpyObj('Router', [], { events: new Subject().asObservable(), url: '/current' }) },
+        { provide: Location, useValue: { back: vi.fn() } },
+        { provide: Router, useValue: { events: new Subject().asObservable(), url: '/current' } },
         { provide: NgxBackButtonServiceProvider, useValue: childConfig }
       ]
     }).compileComponents()
@@ -94,7 +97,7 @@ describe('NgxBackButtonDirective', () => {
     service = TestBed.inject(NgxBackButtonService)
     fixture.detectChanges()
 
-    spyOn(service, 'back')
+    vi.spyOn(service, 'back')
     
     const button = fixture.debugElement.query(By.directive(NgxBackButtonDirective))
     button.nativeElement.click()
@@ -103,7 +106,7 @@ describe('NgxBackButtonDirective', () => {
   })
 
   it('should work with different fallback values', () => {
-    spyOn(service, 'back')
+    vi.spyOn(service, 'back')
     
     // Test that fallback parameter is properly passed
     buttons[1].nativeElement.click()

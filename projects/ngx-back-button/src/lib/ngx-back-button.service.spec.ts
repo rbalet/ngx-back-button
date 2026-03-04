@@ -2,35 +2,38 @@ import { TestBed } from '@angular/core/testing'
 import { Location } from '@angular/common'
 import { NavigationEnd, Router } from '@angular/router'
 import { Subject } from 'rxjs'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { NgxBackButtonService } from './ngx-back-button.service'
 import { NgxBackButtonServiceProvider } from './ngx-back-button.const'
 
 describe('NgxBackButtonService', () => {
   let service: NgxBackButtonService
-  let location: jasmine.SpyObj<Location>
-  let router: jasmine.SpyObj<Router>
+  let location: Location
+  let router: Router
   let routerEventsSubject: Subject<any>
 
   beforeEach(() => {
     routerEventsSubject = new Subject()
     
-    const locationSpy = jasmine.createSpyObj('Location', ['back'])
-    const routerSpy = jasmine.createSpyObj('Router', [], {
+    const locationMock = {
+      back: vi.fn()
+    }
+    const routerMock = {
       events: routerEventsSubject.asObservable(),
       url: '/current'
-    })
+    }
 
     TestBed.configureTestingModule({
       providers: [
         NgxBackButtonService,
-        { provide: Location, useValue: locationSpy },
-        { provide: Router, useValue: routerSpy }
+        { provide: Location, useValue: locationMock },
+        { provide: Router, useValue: routerMock }
       ]
     })
 
     service = TestBed.inject(NgxBackButtonService)
-    location = TestBed.inject(Location) as jasmine.SpyObj<Location>
-    router = TestBed.inject(Router) as jasmine.SpyObj<Router>
+    location = TestBed.inject(Location)
+    router = TestBed.inject(Router)
   })
 
   it('should be created', () => {
@@ -88,8 +91,8 @@ describe('NgxBackButtonService', () => {
     })
 
     it('should return false when no history exists and use default fallback', () => {
-      spyOn(window.history, 'replaceState')
-      spyOn(window.history, 'pushState')
+      vi.spyOn(window.history, 'replaceState')
+      vi.spyOn(window.history, 'pushState')
 
       const result = service.back()
 
@@ -99,8 +102,8 @@ describe('NgxBackButtonService', () => {
     })
 
     it('should use provided fallback when no history exists', () => {
-      spyOn(window.history, 'replaceState')
-      spyOn(window.history, 'pushState')
+      vi.spyOn(window.history, 'replaceState')
+      vi.spyOn(window.history, 'pushState')
 
       const result = service.back('/home')
 
@@ -125,8 +128,8 @@ describe('NgxBackButtonService', () => {
 
       service = TestBed.inject(NgxBackButtonService)
       
-      spyOn(window.history, 'replaceState')
-      spyOn(window.history, 'pushState')
+      vi.spyOn(window.history, 'replaceState')
+      vi.spyOn(window.history, 'pushState')
 
       const result = service.back()
 
@@ -151,8 +154,8 @@ describe('NgxBackButtonService', () => {
 
       service = TestBed.inject(NgxBackButtonService)
       
-      spyOn(window.history, 'replaceState')
-      spyOn(window.history, 'pushState')
+      vi.spyOn(window.history, 'replaceState')
+      vi.spyOn(window.history, 'pushState')
 
       const childConfig = { rootUrl: '/login', fallbackPrefix: '/child' }
       const result = service.back(undefined, childConfig)
@@ -162,14 +165,16 @@ describe('NgxBackButtonService', () => {
     })
 
     it('should handle errors in replaceState gracefully', () => {
-      spyOn(window.history, 'replaceState').and.throwError('Security error')
-      spyOn(window.history, 'pushState')
-      spyOn(console, 'error')
+      vi.spyOn(window.history, 'replaceState').mockImplementation(() => {
+        throw new Error('Security error')
+      })
+      vi.spyOn(window.history, 'pushState')
+      vi.spyOn(console, 'error')
 
       const result = service.back('/home')
 
       expect(result).toBe(false)
-      expect(console.error).toHaveBeenCalledWith(jasmine.stringContaining('NgxBackButton'))
+      expect(console.error).toHaveBeenCalledWith(expect.stringContaining('NgxBackButton'))
       expect(location.back).toHaveBeenCalled()
     })
 
@@ -190,8 +195,8 @@ describe('NgxBackButtonService', () => {
 
       service = TestBed.inject(NgxBackButtonService)
       
-      spyOn(window.history, 'replaceState')
-      spyOn(window.history, 'pushState')
+      vi.spyOn(window.history, 'replaceState')
+      vi.spyOn(window.history, 'pushState')
 
       const result = service.back('/settings')
 
