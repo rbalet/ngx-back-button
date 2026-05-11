@@ -3,9 +3,6 @@ name: Publish
 on:
   workflow_call:
 
-permissions:
-  id-token: write
-
 jobs:
   publish:
     name: Release to npm
@@ -40,7 +37,7 @@ jobs:
         run: pnpm run build && pnpm run copy-files
 
       - name: 🚀 release
-        run: pnpm exec semantic-release --branches main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
+        run: pnpm exec semantic-release --branches main
