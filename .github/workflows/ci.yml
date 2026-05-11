@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    uses: ./.github/workflows/test.yml
+    permissions:
+      contents: read
+    secrets: inherit
+
+  publish:
+    needs: test
+    uses: ./.github/workflows/publish.yml
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
+    secrets: inherit
