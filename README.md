@@ -22,7 +22,7 @@ A library for handling a proper angular back button capability
 npm install ngx-back-button
 ```
 
-### Optional configuration
+### Configuration
 
 #### Using provider functions (Recommended)
 

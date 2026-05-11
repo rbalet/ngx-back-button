@@ -1,6 +1,12 @@
-import { EnvironmentProviders, makeEnvironmentProviders } from '@angular/core'
+import {
+  EnvironmentProviders,
+  inject,
+  makeEnvironmentProviders,
+  provideEnvironmentInitializer,
+} from '@angular/core'
 import { NgxBackButtonServiceProvider } from './ngx-back-button.const'
 import { NgxBackButtonServiceConfig } from './ngx-back-button.interface'
+import { NgxBackButtonService } from './ngx-back-button.service'
 
 /**
  * Internal function to create environment providers for NgxBackButton configuration.
@@ -12,20 +18,21 @@ function createNgxBackButtonProviders(config?: NgxBackButtonServiceConfig): Envi
       provide: NgxBackButtonServiceProvider,
       useValue: config || {},
     },
+    provideEnvironmentInitializer(() => inject(NgxBackButtonService)),
   ])
 }
 
 /**
  * Provides the NgxBackButton service with the given configuration.
  * Use this in your root application providers.
- * 
+ *
  * When both root and child configurations are provided, the child configuration
  * will override the root configuration for routes under that path, following
  * Angular's hierarchical dependency injection.
- * 
+ *
  * @param config Configuration for the NgxBackButton service
  * @returns Environment providers for NgxBackButton
- * 
+ *
  * @example
  * ```typescript
  * bootstrapApplication(AppComponent, {
@@ -45,14 +52,14 @@ export function provideNgxBackButton(config?: NgxBackButtonServiceConfig): Envir
 /**
  * Provides child-level configuration for NgxBackButton service.
  * Use this in lazy-loaded route providers to override the root configuration.
- * 
+ *
  * This configuration will override the root configuration for all components
  * and directives within the route's component tree, following Angular's
  * hierarchical dependency injection.
- * 
+ *
  * @param config Configuration for the NgxBackButton service at child level
  * @returns Environment providers for NgxBackButton child configuration
- * 
+ *
  * @example
  * ```typescript
  * export const routes: Routes = [
@@ -68,6 +75,8 @@ export function provideNgxBackButton(config?: NgxBackButtonServiceConfig): Envir
  * ]
  * ```
  */
-export function provideNgxBackButtonChild(config?: NgxBackButtonServiceConfig): EnvironmentProviders {
+export function provideNgxBackButtonChild(
+  config?: NgxBackButtonServiceConfig,
+): EnvironmentProviders {
   return createNgxBackButtonProviders(config)
 }
