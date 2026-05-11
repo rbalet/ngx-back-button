@@ -3,8 +3,12 @@ name: Publish
 on:
   workflow_call:
 
+permissions:
+  id-token: write
+
 jobs:
   publish:
+    name: Release to npm
     runs-on: ubuntu-latest
     permissions:
       contents: write # to be able to publish a GitHub release
@@ -39,5 +43,4 @@ jobs:
         run: pnpm exec semantic-release --branches main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
