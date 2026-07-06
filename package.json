@@ -28,7 +28,7 @@
     "test": "vitest",
     "test:ci": "vitest run --coverage",
     "test:ui": "vitest --ui",
-    "deploy": "ng build ngx-back-button --configuration production && pnpm run copy-files && pnpm publish ./dist/ngx-back-button",
+    "deploy": "ng build ngx-back-button --configuration production && pnpm copy-files && pnpm publish ./dist/ngx-back-button",
     "copy-files": "cp README.md dist/ngx-back-button && cp LICENSE dist/ngx-back-button"
   },
   "packageManager": "pnpm@11.10.0",
