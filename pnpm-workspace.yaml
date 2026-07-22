@@ -3,3 +3,5 @@ allowBuilds:
   esbuild: true
   lmdb: true
   msgpackr-extract: true
+minimumReleaseAgeExclude:
+  - '@semantic-release/git@11.0.0'
