@@ -45,12 +45,12 @@ describe('NgxBackButtonService', () => {
   })
 
   it('should initialize with empty next back navigation name', () => {
-    expect(service.$nextBackNavigationName()).toBe('')
+    expect(service.$nextBackNavigationPath()).toBe('')
   })
 
   it('should expose next back navigation name as a readonly signal', () => {
-    expect('set' in service.$nextBackNavigationName).toBe(false)
-    expect('update' in service.$nextBackNavigationName).toBe(false)
+    expect('set' in service.$nextBackNavigationPath).toBe(false)
+    expect('update' in service.$nextBackNavigationPath).toBe(false)
   })
 
   it('should add navigation to history on NavigationEnd', () => {
@@ -70,13 +70,13 @@ describe('NgxBackButtonService', () => {
   it('should update next back navigation name from tracked history', () => {
     // First navigation is skipped
     routerEventsSubject.next(new NavigationEnd(1, '/first', '/first'))
-    expect(service.$nextBackNavigationName()).toBe('')
+    expect(service.$nextBackNavigationPath()).toBe('')
 
     routerEventsSubject.next(new NavigationEnd(2, '/second', '/second'))
-    expect(service.$nextBackNavigationName()).toBe('')
+    expect(service.$nextBackNavigationPath()).toBe('')
 
     routerEventsSubject.next(new NavigationEnd(3, '/third', '/third'))
-    expect(service.$nextBackNavigationName()).toBe('/second')
+    expect(service.$nextBackNavigationPath()).toBe('/second')
   })
 
   it('should not add navigation to history when navigating back', () => {
@@ -86,11 +86,11 @@ describe('NgxBackButtonService', () => {
     routerEventsSubject.next(new NavigationEnd(3, '/third', '/third'))
 
     expect(service.getHistory()).toEqual(['/second', '/third'])
-    expect(service.$nextBackNavigationName()).toBe('/second')
+    expect(service.$nextBackNavigationPath()).toBe('/second')
 
     // Navigate back
     service.back()
-    expect(service.$nextBackNavigationName()).toBe('')
+    expect(service.$nextBackNavigationPath()).toBe('')
 
     // Simulate the NavigationEnd that would occur after back()
     routerEventsSubject.next(new NavigationEnd(4, '/second', '/second'))
@@ -131,7 +131,7 @@ describe('NgxBackButtonService', () => {
       const result = service.back('/home')
 
       expect(result).toBe(false)
-      expect(service.$nextBackNavigationName()).toBe('/home')
+      expect(service.$nextBackNavigationPath()).toBe('/home')
       expect(window.history.replaceState).toHaveBeenCalledWith(null, '', '/home')
     })
 
@@ -151,7 +151,7 @@ describe('NgxBackButtonService', () => {
       })
 
       service = TestBed.inject(NgxBackButtonService)
-      expect(service.$nextBackNavigationName()).toBe('/app/dashboard')
+      expect(service.$nextBackNavigationPath()).toBe('/app/dashboard')
 
       vi.spyOn(window.history, 'replaceState')
       vi.spyOn(window.history, 'pushState')
@@ -186,7 +186,7 @@ describe('NgxBackButtonService', () => {
       const result = service.back(undefined, childConfig)
 
       expect(result).toBe(false)
-      expect(service.$nextBackNavigationName()).toBe('/child/login')
+      expect(service.$nextBackNavigationPath()).toBe('/child/login')
       expect(window.history.replaceState).toHaveBeenCalledWith(null, '', '/child/login')
     })
 
