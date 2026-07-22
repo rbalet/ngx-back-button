@@ -1,5 +1,5 @@
 import { Location } from '@angular/common'
-import { inject, Injectable } from '@angular/core'
+import { inject, Injectable, Signal, signal } from '@angular/core'
 import { NavigationEnd, Router } from '@angular/router'
 import { filter, skip } from 'rxjs'
 import { NgxBackButtonServiceProvider } from './ngx-back-button.const'
@@ -15,6 +15,9 @@ export class NgxBackButtonService {
 
   private _history: string[] = []
   private _navigatingBack = false
+  private _$nextBackNavigationName = signal(this._getFallbackNavigationName())
+
+  readonly $nextBackNavigationName: Signal<string> = this._$nextBackNavigationName.asReadonly()
 
   constructor() {
     this.#router.events
@@ -25,6 +28,7 @@ export class NgxBackButtonService {
       .subscribe((event) => {
         if (!this._navigatingBack) this._history.push(event.urlAfterRedirects)
 
+        this._updateNextBackNavigationName()
         this._navigatingBack = false
       })
   }
@@ -34,7 +38,6 @@ export class NgxBackButtonService {
   }
 
   /**
-   *
    * @param fallback
    * @param config Optional configuration to override the root configuration (typically from child routes)
    * @return Boolean: True === Had an history to go back to
@@ -43,6 +46,7 @@ export class NgxBackButtonService {
     this._navigatingBack = true
 
     const record = this._history.pop()
+    this._updateNextBackNavigationName(fallback, config)
 
     if (this._history.length > 0) {
       this.#location.back()
@@ -50,13 +54,8 @@ export class NgxBackButtonService {
     } else {
       this._navigatingBack = false // Give an element to go back to on next navigation
 
-      // Use provided config (from child route) or fall back to root config
-      const effectiveConfig = config || this.#rootConfig
-      const rootUrl = effectiveConfig?.rootUrl || ''
-      const fallbackPrefix = effectiveConfig?.fallbackPrefix || ''
-
       try {
-        window.history.replaceState(null, '', fallbackPrefix + (fallback || rootUrl))
+        window.history.replaceState(null, '', this._getFallbackNavigationName(fallback, config))
       } catch (error) {
         console.error('NgxBackButton: ' + error)
       }
@@ -65,5 +64,27 @@ export class NgxBackButtonService {
       this.#location.back()
       return false
     }
+  }
+
+  private _getFallbackNavigationName(
+    fallback?: string,
+    config?: NgxBackButtonServiceConfig | null,
+  ): string {
+    const effectiveConfig = config || this.#rootConfig
+    const rootUrl = effectiveConfig?.rootUrl || ''
+    const fallbackPrefix = effectiveConfig?.fallbackPrefix || ''
+
+    return fallbackPrefix + (fallback || rootUrl)
+  }
+
+  private _updateNextBackNavigationName(
+    fallback?: string,
+    config?: NgxBackButtonServiceConfig | null,
+  ): void {
+    const previousHistoryEntry = this._history[this._history.length - 2]
+
+    this._$nextBackNavigationName.set(
+      previousHistoryEntry ?? this._getFallbackNavigationName(fallback, config),
+    )
   }
 }

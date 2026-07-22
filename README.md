@@ -162,6 +162,17 @@ With Fallback:
 </button>
 ```
 
+Display the next back destination:
+
+```html
+<button (click)="ngxBackButtonService.back()">
+  Back to {{ ngxBackButtonService.nextBackNavigationName() }}
+</button>
+```
+
+`nextBackNavigationName` is a readonly signal. It points to the previous tracked
+navigation when one exists, otherwise it uses the configured fallback URL.
+
 **Note**: When using the service directly (instead of the directive), it will use the root configuration by default. If you need to use a child route configuration, you should inject and pass it manually:
 
 ```typescript
