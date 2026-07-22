@@ -2,20 +2,20 @@
 <h3>Reload the page to test the fallback</h3>
 
 <div class="example-container">
-  <button mat-stroked-button ngxBackButton>rootUrl</button>
-  <p><strong>ngxBackButton</strong>: Fallback with default (rootUrl)</p>
+  <button mat-stroked-button ngxBackButton>Back</button>
+  <p><strong>ngxBackButton</strong>: Fallback with default (rootUrl = '/second')</p>
 </div>
 
 <mat-divider></mat-divider>
 
 <div class="example-container">
-  <button mat-stroked-button ngxBackButton="/first">Page 1</button>
-  <p><strong>ngxBackButton="/first"</strong>: Fallback to /first</p>
+  <button mat-stroked-button ngxBackButton="/first">Back: 1</button>
+  <p><strong>ngxBackButton="/first"</strong>: Fallback to /home/first</p>
 </div>
 
 <div class="example-container">
-  <button mat-flat-button color="primary" ngxBackButton="/second">Page 2</button>
-  <p><strong>ngxBackButton="/third"</strong>: Fallback to /third</p>
+  <button mat-flat-button color="primary" ngxBackButton="/second">Back: 2</button>
+  <p><strong>ngxBackButton="/second"</strong>: Fallback to /home/second</p>
 </div>
 
 <mat-divider></mat-divider>
