@@ -136,6 +136,20 @@ With Fallback:
 </button>
 ```
 
+With a fallback relative to the current URL, each `../` removes one path segment:
+
+```html
+<!-- On /foo/123/bar/456, falls back to /foo/123 -->
+<button ngxBackButton="../../">
+  Back to foo
+</button>
+```
+
+Relative fallbacks can also include a destination, query parameters, or a fragment. For example,
+`../../summary?view=compact#details` resolves to
+`/foo/123/summary?view=compact#details`. Because they are resolved from the current URL,
+`fallbackPrefix` is not prepended to relative fallbacks.
+
 ### Service
 
 ```typescript
@@ -166,11 +180,11 @@ Display the next back destination:
 
 ```html
 <button (click)="ngxBackButtonService.back()">
-  Back to {{ ngxBackButtonService.nextBackNavigationPath() }}
+  Back to {{ ngxBackButtonService.$nextBackNavigationPath() }}
 </button>
 ```
 
-`nextBackNavigationPath` is a readonly signal. It points to the previous tracked
+`$nextBackNavigationPath` is a readonly signal. It points to the previous tracked
 navigation when one exists, otherwise it uses the configured fallback URL.
 
 **Note**: When using the service directly (instead of the directive), it will use the root configuration by default. If you need to use a child route configuration, you should inject and pass it manually:

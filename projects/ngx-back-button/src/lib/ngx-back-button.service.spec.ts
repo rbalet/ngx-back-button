@@ -135,6 +135,51 @@ describe('NgxBackButtonService', () => {
       expect(window.history.replaceState).toHaveBeenCalledWith(null, '', '/home')
     })
 
+    it('should resolve each ../ fallback segment against the current route', () => {
+      vi.spyOn(window.history, 'replaceState')
+      vi.spyOn(window.history, 'pushState')
+      Object.defineProperty(router, 'url', {
+        configurable: true,
+        value: '/foo/123/bar/456',
+      })
+
+      const result = service.back('../../')
+
+      expect(result).toBe(false)
+      expect(service.$nextBackNavigationPath()).toBe('/foo/123')
+      expect(window.history.replaceState).toHaveBeenCalledWith(null, '', '/foo/123')
+    })
+
+    it('should support a path, query, and fragment after relative parent segments', () => {
+      vi.spyOn(window.history, 'replaceState')
+      vi.spyOn(window.history, 'pushState')
+      Object.defineProperty(router, 'url', {
+        configurable: true,
+        value: '/foo/123/bar/456?previous=value#old',
+      })
+
+      service.back('../../summary?view=compact#details')
+
+      expect(window.history.replaceState).toHaveBeenCalledWith(
+        null,
+        '',
+        '/foo/123/summary?view=compact#details',
+      )
+    })
+
+    it('should resolve relative fallbacks to the root without traversing above it', () => {
+      vi.spyOn(window.history, 'replaceState')
+      vi.spyOn(window.history, 'pushState')
+      Object.defineProperty(router, 'url', {
+        configurable: true,
+        value: '/foo/123',
+      })
+
+      service.back('../../../')
+
+      expect(window.history.replaceState).toHaveBeenCalledWith(null, '', '/')
+    })
+
     it('should use root config when no history exists', () => {
       TestBed.resetTestingModule()
 
@@ -228,6 +273,35 @@ describe('NgxBackButtonService', () => {
 
       expect(result).toBe(false)
       expect(window.history.replaceState).toHaveBeenCalledWith(null, '', '/tabs/settings')
+    })
+
+    it('should resolve relative fallbacks from the current route instead of prefixing them', () => {
+      TestBed.resetTestingModule()
+
+      const relativeRouter = {
+        events: new Subject().asObservable(),
+        url: '/tabs/foo/123/bar/456',
+      }
+
+      TestBed.configureTestingModule({
+        providers: [
+          NgxBackButtonService,
+          { provide: Location, useValue: location },
+          { provide: Router, useValue: relativeRouter },
+          {
+            provide: NgxBackButtonServiceProvider,
+            useValue: { fallbackPrefix: '/tabs' },
+          },
+        ],
+      })
+
+      service = TestBed.inject(NgxBackButtonService)
+      vi.spyOn(window.history, 'replaceState')
+      vi.spyOn(window.history, 'pushState')
+
+      service.back('../../')
+
+      expect(window.history.replaceState).toHaveBeenCalledWith(null, '', '/tabs/foo/123')
     })
   })
 })

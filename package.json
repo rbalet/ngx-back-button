@@ -31,7 +31,7 @@
     "deploy": "ng build ngx-back-button --configuration production && pnpm copy-files && pnpm publish ./dist/ngx-back-button",
     "copy-files": "cp README.md dist/ngx-back-button && cp LICENSE dist/ngx-back-button"
   },
-  "packageManager": "pnpm@11.15.1",
+  "packageManager": "pnpm@11.19.0",
   "dependencies": {
     "@angular/animations": "22.0.7",
     "@angular/cdk": "22.0.5",
@@ -72,7 +72,21 @@
       "main"
     ],
     "plugins": [
-      "@semantic-release/commit-analyzer",
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "releaseRules": [
+            {
+              "type": "build",
+              "release": "patch"
+            },
+            {
+              "type": "style",
+              "release": "patch"
+            }
+          ]
+        }
+      ],
       "@semantic-release/release-notes-generator",
       [
         "@semantic-release/npm",

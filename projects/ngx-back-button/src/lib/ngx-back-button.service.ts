@@ -73,8 +73,36 @@ export class NgxBackButtonService {
     const effectiveConfig = config || this.#rootConfig
     const rootUrl = effectiveConfig?.rootUrl || ''
     const fallbackPrefix = effectiveConfig?.fallbackPrefix || ''
+    const fallbackPath = fallback || rootUrl
 
-    return fallbackPrefix + (fallback || rootUrl)
+    if (fallbackPath.startsWith('../')) {
+      return this._resolveRelativeFallbackNavigationPath(fallbackPath)
+    }
+
+    return fallbackPrefix + fallbackPath
+  }
+
+  private _resolveRelativeFallbackNavigationPath(fallback: string): string {
+    const suffixIndex = fallback.search(/[?#]/)
+    const path = suffixIndex === -1 ? fallback : fallback.slice(0, suffixIndex)
+    const suffix = suffixIndex === -1 ? '' : fallback.slice(suffixIndex)
+    const fallbackSegments = path.split('/')
+    let parentSegmentCount = 0
+
+    while (fallbackSegments[0] === '..') {
+      fallbackSegments.shift()
+      parentSegmentCount++
+    }
+
+    const currentPath = this.#router.url.split(/[?#]/, 1)[0]
+    const currentSegments = currentPath.split('/').filter(Boolean)
+    const retainedSegments = currentSegments.slice(
+      0,
+      Math.max(0, currentSegments.length - parentSegmentCount),
+    )
+    const appendedSegments = fallbackSegments.filter((segment) => segment && segment !== '.')
+
+    return `/${[...retainedSegments, ...appendedSegments].join('/')}${suffix}`
   }
 
   private _updateNextBackNavigationPath(
