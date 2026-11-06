@@ -34,7 +34,8 @@ describe('NgxBackButtonDirective', () => {
     }
     const routerMock = {
       events: routerEventsSubject.asObservable(),
-      url: '/current'
+      url: '/current',
+      navigateByUrl: vi.fn().mockResolvedValue(true)
     }
 
     await TestBed.configureTestingModule({
@@ -88,7 +89,14 @@ describe('NgxBackButtonDirective', () => {
       providers: [
         NgxBackButtonService,
         { provide: Location, useValue: { back: vi.fn() } },
-        { provide: Router, useValue: { events: new Subject().asObservable(), url: '/current' } },
+        {
+          provide: Router,
+          useValue: {
+            events: new Subject().asObservable(),
+            url: '/current',
+            navigateByUrl: vi.fn().mockResolvedValue(true)
+          }
+        },
         { provide: NgxBackButtonServiceProvider, useValue: childConfig }
       ]
     }).compileComponents()

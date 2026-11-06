@@ -187,6 +187,17 @@ Display the next back destination:
 `$nextBackNavigationPath` is a readonly signal. It points to the previous tracked
 navigation when one exists, otherwise it uses the configured fallback URL.
 
+Back follows the browser entries tracked since the service started, including the initial
+page. `replaceUrl` updates the current entry, and `skipLocationChange` adds no entry.
+Browser Back and Forward update the tracked position. Consecutive entries for the current
+URL are skipped, so Back reaches a different page.
+
+`getHistory()` returns a snapshot through the current entry, including the current page.
+If a restored browser entry cannot be identified, tracking restarts from that page.
+When no distinct previous entry is tracked, the fallback is navigated through Angular Router
+with `replaceUrl: true`, so route guards still apply. `back()` returns `true` for a requested
+history traversal and `false` for a fallback; it does not report whether navigation succeeded.
+
 **Note**: When using the service directly (instead of the directive), it will use the root configuration by default. If you need to use a child route configuration, you should inject and pass it manually:
 
 ```typescript
